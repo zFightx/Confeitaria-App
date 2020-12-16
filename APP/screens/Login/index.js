@@ -1,5 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { KeyboardAvoidingView, StatusBar } from 'react-native';
+
+import API from '../../API';
 
 import {
     Container,
@@ -25,6 +27,30 @@ import UserIcon from '../../assets/user.svg';
 import PasswordIcon from '../../assets/password.svg';
 
 export default () =>{
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
+    // React.useEffect( () => {
+
+    // }, [] );
+
+    const handleLogin = async () => {
+        // alert("AQUI");
+        try {
+            const response = await API.get(`/usuarios/${username}/${password}`);
+            const status = response.data.status;
+
+            if(status == "success"){
+                alert("Logou");
+            }
+            else{
+                alert(`${response.data.menssage}`);
+            }
+        } catch (error) {
+            alert("Erro " + error);
+        }
+    }
+
     return(
         <Container>
             <StatusBar style="auto" />
@@ -38,18 +64,29 @@ export default () =>{
                     <FormBox>
                         <BoxUsername>
                             <UserIcon width="24px" height="24px" fill="#DDA946" />
-                            <UsernameInput placeholder="Username" placeholderTextColor="#CCC"/>
+                            <UsernameInput 
+                                placeholder="Username" 
+                                placeholderTextColor="#CCC"
+                                value={username}
+                                onChangeText={t => setUsername(t)}
+                            />
                         </BoxUsername>
 
                         <BoxPassword>
                             <PasswordIcon width="24px" height="24px" fill="#DDA946"/>
-                            <PasswordInput placeholder="Password" placeholderTextColor="#CCC"
-                            secureTextEntry={true}
+                            <PasswordInput 
+                                placeholder="Password" 
+                                placeholderTextColor="#CCC"
+                                secureTextEntry={true}
+                                value={password}
+                                onChangeText={t => setPassword(t)}
                             />
                         </BoxPassword>
                     </FormBox>
                 
-                    <BoxButton>
+                    <BoxButton
+                        onPress={handleLogin}
+                    >
                         <ButtonText>Entrar</ButtonText>
                     </BoxButton>
 

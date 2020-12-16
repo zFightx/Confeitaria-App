@@ -17,3 +17,14 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::namespace('App\Http\Controllers\Api')->name('api.')->group(function() {
+    Route::prefix('/usuarios')->group(function(){
+        Route::get('/', 'UsuariosController@selectAll')->name('selectAll_usuarios');
+        Route::get('/{username}/{password}', 'UsuariosController@select')->name('select_usuarios');
+
+        Route::post('/', 'UsuariosController@insert')->name('insert_usuarios');
+        Route::put('/{id}', 'UsuariosController@update')->name('update_usuarios');
+        Route::delete('/{id}', 'UsuariosController@delete')->name('delete_usuarios');
+    });
+});

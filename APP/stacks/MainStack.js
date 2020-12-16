@@ -10,7 +10,7 @@ const Stack = createStackNavigator();
 export default () => {
     return(
         <Stack.Navigator
-            initialRouteName="Cadastro"
+            initialRouteName="Login"
             screenOptions={{
                 headerShown: false
             }}
