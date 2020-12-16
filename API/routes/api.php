@@ -22,6 +22,7 @@ Route::namespace('App\Http\Controllers\Api')->name('api.')->group(function() {
     Route::prefix('/usuarios')->group(function(){
         Route::get('/', 'UsuariosController@selectAll')->name('selectAll_usuarios');
         Route::get('/{username}/{password}', 'UsuariosController@select')->name('select_usuarios');
+        Route::get('/{username}', 'UsuariosController@autenticate')->name('autenticate_usuarios');
 
         Route::post('/', 'UsuariosController@insert')->name('insert_usuarios');
         Route::put('/{id}', 'UsuariosController@update')->name('update_usuarios');

@@ -10,7 +10,7 @@ const Stack = createStackNavigator();
 export default () => {
     return(
         <Stack.Navigator
-            initialRouteName="Login"
+            initialRouteName="Preload"
             screenOptions={{
                 headerShown: false
             }}

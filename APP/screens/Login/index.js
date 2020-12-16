@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { KeyboardAvoidingView, StatusBar } from 'react-native';
+import { KeyboardAvoidingView, StatusBar, AsyncStorage } from 'react-native';
 
 import API from '../../API';
 
@@ -41,13 +41,23 @@ export default () =>{
             const status = response.data.status;
 
             if(status == "success"){
-                alert("Logou");
+                saveUsername(response.data.data.username);
             }
             else{
                 alert(`${response.data.menssage}`);
             }
         } catch (error) {
             alert("Erro " + error);
+        }
+    }
+
+
+    const saveUsername = async (username) => {
+        try {
+            await AsyncStorage.setItem('@username', JSON.stringify(username));
+            alert("Salvou");
+        } catch (error) {
+            
         }
     }
 

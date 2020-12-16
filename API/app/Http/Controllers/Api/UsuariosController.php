@@ -54,6 +54,29 @@ class UsuariosController extends Controller
         }
     }
 
+    public function autenticate($username){
+    
+        try{
+            $usuario = DB::table('usuarios')->where(
+                'username', '=', $username
+            )->get()->first();
+
+            if($usuario){
+                $data = ['status' => 'success', 'data' => $usuario];
+                return response()->json($data);
+            }
+            else{
+                $messageError = ['status' => 'error', 'menssage' => 'Usuário inexistente', 'data' => []];
+                return response()->json($messageError);
+            }
+
+            
+        }catch(\Exception $error){
+            $messageError = ['status' => 'error', 'menssage' => 'Erro na tentative de ler o dado. ' . $error->getMessage()];
+            return response()->json($messageError);
+        }
+    }
+
     public function insert(Request $request){
 
         try{
