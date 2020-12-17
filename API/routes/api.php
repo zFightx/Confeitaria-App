@@ -14,18 +14,39 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
-Route::namespace('App\Http\Controllers\Api')->name('api.')->group(function() {
-    Route::prefix('/usuarios')->group(function(){
-        Route::get('/', 'UsuariosController@selectAll')->name('selectAll_usuarios');
-        Route::get('/{username}/{password}', 'UsuariosController@select')->name('select_usuarios');
-        Route::get('/{username}', 'UsuariosController@autenticate')->name('autenticate_usuarios');
+Route::namespace('App\Http\Controllers\Api')->group(function(){
 
-        Route::post('/', 'UsuariosController@insert')->name('insert_usuarios');
-        Route::put('/{id}', 'UsuariosController@update')->name('update_usuarios');
-        Route::delete('/{id}', 'UsuariosController@delete')->name('delete_usuarios');
+    /**
+     * Grupo de insert ou get Token
+     *
+     */
+    Route::group([
+
+        'middleware' => 'api',
+        'prefix' => 'auth'
+
+    ], function ($router) {
+
+        Route::post('login', 'AuthController@login')->name('login');
+        Route::post('register', 'AuthController@register')->name('register');
+        Route::post('logout', 'AuthController@logout')->name('logout');
+        Route::post('refresh', 'AuthController@refresh')->name('refresh');
+        Route::post('me', 'AuthController@me')->name('me');
+
+    });
+
+
+    /**
+     * Grupo de urls protegidas por JWT
+     *
+     */
+    Route::group([
+        'middleware' => 'apiJWT'
+    ], function(){
+                
     });
 });
