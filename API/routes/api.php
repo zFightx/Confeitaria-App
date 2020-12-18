@@ -69,16 +69,18 @@ Route::namespace('App\Http\Controllers\Api')->group(function(){
             Route::post('/', 'ProductsController@store')->name('store_products');
             Route::put('/{id}', 'ProductsController@update')->name('update_products');
             Route::delete('/{id}', 'ProductsController@destroy')->name('destroy_products');
+
+            Route::get('/categories/{id_category}', 'ProductsController@index_category')->name('index_products_category');
         });
 
         Route::group([
             'prefix' => 'favorites'
         ],function(){
-            Route::get('/', 'FavoritesController@index')->name('index_favorites');
-            Route::get('/{id}', 'FavoritesController@show')->name('show_favorites');
-            Route::post('/', 'FavoritesController@store')->name('store_favorites');
-            Route::put('/{id}', 'FavoritesController@update')->name('update_favorites');
-            Route::delete('/{id}', 'FavoritesController@destroy')->name('destroy_favorites');
+            Route::get('/user/{user_id}', 'FavoritesController@index_user')->name('index_user_favorites');
+            Route::get('/user/{user_id}/{id}', 'FavoritesController@show_user')->name('show_user_favorites');
+            Route::post('/user/{user_id}', 'FavoritesController@store_user')->name('store_user_favorites');
+            Route::put('/user/{user_id}/{id}', 'FavoritesController@update_user')->name('update_user_favorites');
+            Route::delete('/user/{user_id}/{id}', 'FavoritesController@destroy_user')->name('destroy_user_favorites');
         });
         
     });

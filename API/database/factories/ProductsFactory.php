@@ -27,7 +27,7 @@ class ProductsFactory extends Factory
             'name' => $this->faker->words(2, true),
             'description' => $this->faker->realText(200),
             'preco' => $this->faker->randomFloat(2, 10, 200),
-            'url_img' => 'https://i.pinimg.com/736x/09/10/19/0910199a1d58615e379a7762c6da683b.jpg',
+            'url_img' => 'bolo1.png',
             'category_id' => Categories::inRandomOrder()->value('id')
         ];
     }

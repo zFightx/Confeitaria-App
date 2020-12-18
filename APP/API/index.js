@@ -106,5 +106,54 @@ export const getProducts = async () => {
     alert('Erro ao carregar produtos.');
 }
 
+export const getFavorites = async () => {
+    try {
+        const jsonValue = await AsyncStorage.getItem('@token');
+        const myToken = jsonValue != null ? JSON.parse(jsonValue) : null;
+
+        if(myToken){
+            const response1 = await API.post(`/auth/me?token=${myToken}`);
+            const data = response1.data;
+            
+            if(data){
+                const myId = data.id;
+                const response2 = await API.get(`/favorites/user/${myId}?token=${myToken}`);
+                const myFavorites = response2.data.data;
+                
+                if(myFavorites){
+                    return myFavorites;
+                }
+            }            
+        }
+    } catch (error) {
+        // para de bug
+        // alert('Erro na leitura de favoritos. ' + error);
+    }
+
+    alert('Erro na leitura de favoritos.');
+}
+
+export const getProductsCategory = async (idCategory) => {
+    try {
+        const jsonValue = await AsyncStorage.getItem('@token');
+        const myToken = jsonValue != null ? JSON.parse(jsonValue) : null;
+
+        if(myToken){            
+            const response = await API.get(`/products/categories/${idCategory}?token=${myToken}`);
+            const products = response.data.data;
+            
+            if(products){
+                return products;
+            }
+                     
+        }
+    } catch (error) {
+        // para de bug
+        // alert('Erro na leitura de favoritos. ' + error);
+    }
+
+    alert('Erro na leitura de categoria product.');
+}
+
 
 export default API;

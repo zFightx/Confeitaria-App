@@ -13,13 +13,14 @@ class FavoritesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index_user($user_id)
     {
         try{
             $data = Favorites::join('users', 'favorites.user_id', '=', 'users.id')
                 ->join('products', 'favorites.product_id', '=', 'products.id')
                 ->join('categories', 'products.category_id', '=', 'categories.id')
-                ->select('products.*', 'categories.name AS category')
+                ->select('favorites.id as id_fav', 'products.*', 'categories.name AS category')
+                ->where('users.id', '=', $user_id)
                 ->get();
             
             $return = ['code' => 20, 'data' => $data, 'message' => ApiMessages::indexSuccess()];
@@ -46,7 +47,7 @@ class FavoritesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store_user(Request $request)
     {
         try{
             $favorite = $request->all();
@@ -72,7 +73,7 @@ class FavoritesController extends Controller
      * @param  \App\Models\Favorites  $favorites
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show_user($id)
     {
         try{
             $favorite = Favorites::join('users', 'favorites.user_id', '=', 'users.id')
@@ -113,7 +114,7 @@ class FavoritesController extends Controller
      * @param  \App\Models\Favorites  $favorites
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update_user(Request $request, $id)
     {
         try{
             $upFavorite = $request->all();
@@ -140,7 +141,7 @@ class FavoritesController extends Controller
      * @param  \App\Models\Favorites  $favorites
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Favorites $id)
+    public function destroy_user(Favorites $id)
     {
         try{
             $id->delete();

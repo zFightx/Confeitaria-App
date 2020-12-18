@@ -4,9 +4,10 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 import {getCategories, getProducts} from '../../API';
 
+import ProductItem from '../../components/ProductItem';
+
 import SearchIcon from '../../assets/pesquisa.svg';
 
-// import '../../assets/*';
 
 import {
     Container,
@@ -25,18 +26,13 @@ import {
     CategoryListBox,
     CategoryList,
     CategoryItemBox,
+    CategoryItemImageBox,
     CategoryItemImage,
     CategoryItemText,
 
     TopProductsBox,
     TopProductsText,
     TopProductsList,
-    TopProductsItemBox,
-    TopProductsItemTextBox,
-    TopProductsItemTitle,
-    TopProductsItemDescription,
-    TopProductsItemPrice,
-    TopProductsItemImage,
 
     Scroller
 } from './styles';
@@ -87,8 +83,14 @@ export default ({ navigation }) =>{
 
     const renderCategories = ({item}) =>{        
         return(
-            <CategoryItemBox>
-                <CategoryItemImage source={{uri: ''+item.url_img}}/>
+            <CategoryItemBox
+                onPress={
+                    () => navigation.navigate('Categoria', {category: item})
+                }
+            >
+                <CategoryItemImageBox>
+                    <CategoryItemImage source={{uri: ''+item.url_img}}/>
+                </CategoryItemImageBox>
                 <CategoryItemText>{item.name}</CategoryItemText>
             </CategoryItemBox>
         )
@@ -96,16 +98,8 @@ export default ({ navigation }) =>{
 
     const renderTopProducts = ({item}) =>{
         return(
-            <TopProductsItemBox>
-                <TopProductsItemTextBox>
-                    <TopProductsItemTitle numberOfLines={1}>{item.name}</TopProductsItemTitle>
-                    <TopProductsItemDescription numberOfLines={3}>{item.description}</TopProductsItemDescription>
-                    <TopProductsItemPrice>R$ {item.preco}</TopProductsItemPrice>
-                </TopProductsItemTextBox>
-                <TopProductsItemImage source={{ uri: ''+item.url_img}} />
-
-            </TopProductsItemBox>
-        )
+            <ProductItem item={item}/>
+        );
     }
 
     return(

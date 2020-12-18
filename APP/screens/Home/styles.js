@@ -102,7 +102,7 @@ export const CategoryList = styled.FlatList`
     overflow: scroll;
 `;
 
-export const CategoryItemBox = styled.View`
+export const CategoryItemBox = styled.TouchableOpacity`
     justify-content: center;
     align-items: center;
     flex: 1;
@@ -110,9 +110,20 @@ export const CategoryItemBox = styled.View`
     margin-right: 30px;
 `;
 
+export const CategoryItemImageBox = styled.View`
+    border-width: 1px;
+    border-color: #3F210022;
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+
+    justify-content: center;
+    align-items: center;
+`;
+
 export const CategoryItemImage = styled.Image`
     width: 40px;
-    height: 40px;
+    height: 40px;    
 `;
 
 export const CategoryItemText = styled.Text`
@@ -123,7 +134,7 @@ export const TopProductsBox = styled.View`
     margin-top: 50px;
     padding-left: 10px;
 
-    height: 180px;
+    /* height: 200px; */
 `;
 
 export const TopProductsText = styled.Text`
@@ -133,65 +144,6 @@ export const TopProductsText = styled.Text`
 
 export const TopProductsList = styled.FlatList`
 
-`;
-
-export const TopProductsItemBox = styled.View`
-    width: 250px;
-    /* height: 200px; */
-
-    /* border: 1px solid gray; */
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 30px;
-
-    margin-right: 20px;
-
-    flex-direction: row;
-
-    margin-bottom: 10px;
-    margin-top: 10px;
-
-    elevation: 2;
-
-    overflow: hidden;
-`;
-
-export const TopProductsItemTextBox = styled.View`
-    flex: 1;
-
-    padding-left: 20px;
-    padding-top: 10px;
-    padding-right: 10px;
-`;
-
-export const TopProductsItemTitle = styled.Text`
-    font-size: 20px;
-    font-weight:bold;
-    color: #636363;
-`;
-
-export const TopProductsItemDescription = styled.Text`
-    flex: 1;
-
-    font-size: 14px;
-    color: #636363cc;
-`;
-
-export const TopProductsItemPrice = styled.Text`
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 10px;
-
-    color: #646464;
-`;
-
-export const TopProductsItemImage = styled.Image`
-    align-self: flex-end;
-    width: 80px;
-    height: 80px;
-
-    border-radius: 10px;
 `;
 
 export const Scroller = styled.ScrollView`

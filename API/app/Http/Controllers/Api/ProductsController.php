@@ -29,6 +29,22 @@ class ProductsController extends Controller
         return response()->json($return);
     }
 
+    public function index_category($id_category)
+    {
+        try{
+            $data = Products::join('categories', 'products.category_id', '=', 'categories.id')
+                ->select('products.*', 'categories.name AS category')
+                ->where('categories.id', '=', $id_category)
+                ->get();
+            
+            $return = ['code' => 20, 'data' => $data, 'message' => ApiMessages::indexSuccess()];
+        }catch(\Exception $error){
+            $return = ['code' => 40, 'data' => [], 'message' => ApiMessages::indexFail() . $error->getMessage()];
+        }
+
+        return response()->json($return);
+    }
+    
     /**
      * Show the form for creating a new resource.
      *

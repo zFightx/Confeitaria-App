@@ -22,27 +22,40 @@ const BoxIcon = styled.TouchableOpacity`
 `;
 
 export default ({navigation, state}) => {
+
+    const goTo = (screen) =>{
+        navigation.navigate(screen);
+    }
+
     return(
         <Container>
-            <BoxIcon>
+            <BoxIcon
+                onPress={() => goTo('Home')}
+            >
                 <HomeIcon width="24px" height="24px" fill="#000"
                     style={state.index === 0 ? {opacity: 1.0} : {opacity: 0.7}}
                 />
             </BoxIcon>
 
-            <BoxIcon>
+            <BoxIcon
+                onPress={() => goTo('Favorites')}
+            >
                 <FavoritesIcon width="24px" height="24px" fill="#000" 
                     style={state.index === 1 ? {opacity: 1.0} : {opacity: 0.7}}
                 />
             </BoxIcon>
 
-            <BoxIcon>
+            <BoxIcon
+                onPress={() => goTo('Buying')}
+            >
                 <BuyingIcon width="24px" height="24px" fill="#000" 
                     style={state.index === 2 ? {opacity: 1.0} : {opacity: 0.7}}
                 />
             </BoxIcon>
 
-            <BoxIcon>
+            <BoxIcon
+                onPress={() => goTo('Account')}
+            >
                 <AccountIcon width="24px" height="24px" fill="#000" 
                     style={state.index === 3 ? {opacity: 1.0} : {opacity: 0.7}}
                 />

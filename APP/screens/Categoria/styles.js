@@ -6,7 +6,7 @@ export const Container = styled.View`
 
 
 export const ProductsList = styled.FlatList`
-
+    
 `;
 
 export const TitleBox = styled.View`

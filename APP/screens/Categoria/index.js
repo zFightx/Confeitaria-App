@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { KeyboardAvoidingView, StatusBar, AsyncStorage } from 'react-native';
 
-import {getFavorites} from '../../API';
+import {getProductsCategory} from '../../API';
 
 import ProductItem from '../../components/ProductItem';
 
@@ -14,15 +14,23 @@ import {
     
 } from './styles';
 
-export default ({ navigation }) =>{
+export default ({ route, navigation }) =>{
     const [products, setProducts] = useState([]);
+    const [category, setCategory] = useState({});
 
     React.useEffect( () => {
-        loadFavorites();
-    }, [loadFavorites]);
 
-    const loadFavorites = async () => {
-        const result = await getFavorites();
+        if (route.params?.category) {
+            const {category: categoryParam} = route.params;
+            setCategory(categoryParam);
+            loadProductCategory(categoryParam.id);
+        }
+        
+    }, [route.params?.category]);
+
+    const loadProductCategory = async (idCategory) => {
+        
+        const result = await getProductsCategory(idCategory);
         
         if(result){
             const updateResult = result.map(function(item){
@@ -45,7 +53,7 @@ export default ({ navigation }) =>{
     return(
         <Container>
             <TitleBox>
-                <TitleText>Favoritos</TitleText>
+                <TitleText>{category.name}</TitleText>
             </TitleBox>
 
             <ProductsBox>

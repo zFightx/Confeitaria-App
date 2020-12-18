@@ -13,12 +13,13 @@ const Tab = createBottomTabNavigator();
 export default () =>{
     return(
         <Tab.Navigator
-            tabBar={CustomTabBar}            
+            tabBar={CustomTabBar}         
         >
-            <Tab.Screen name="Home" component={Home} />
+            <Tab.Screen name="Home" component={Home}/>
             <Tab.Screen name="Favorites" component={Favorites} />
             <Tab.Screen name="Buying" component={Buying} />
             <Tab.Screen name="Account" component={Account} />
+            
         </Tab.Navigator>
     )
 }
