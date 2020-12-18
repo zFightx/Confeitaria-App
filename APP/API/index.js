@@ -32,13 +32,13 @@ export const Login = async (name, password) => {
 
         if(myToken){
             await AsyncStorage.setItem('@token', JSON.stringify(myToken));
-            alert("LOGOU");
+            return true;
         }
         else{
-            alert(`Username ou Password errado.`);
+            return false;
         }
     } catch (error) {
-        alert(`Username ou Password errado.`);
+        return false;
     }
 }
 
@@ -54,16 +54,57 @@ export const Cadastro = async (name, email, password) => {
 
         if (myToken){
             await AsyncStorage.setItem('@token', JSON.stringify(myToken));
-            alert("CADASTROU E LOGOU");
+            return true;
         }
         else{
-            alert("Verifique se seus dados foram colocado corretamente.");
+            return false;
         }
     } catch (error) {
-        alert("Verifique se seus dados foram colocado corretamente.");
+        return false;
     }
 }
 
+export const getCategories = async () => {
+    try {
+        const jsonValue = await AsyncStorage.getItem('@token');
+        const myToken = jsonValue != null ? JSON.parse(jsonValue) : null;
+
+        if(myToken){
+            const response = await API.get(`/categories?token=${myToken}`);
+            const categories = response.data.data;
+
+            if(categories){
+                return categories;
+            }
+        }
+        
+    } catch (error) {
+        // for debug
+    }
+
+    alert('Erro ao carregar categorias.');
+}
+
+export const getProducts = async () => {
+    try {
+        const jsonValue = await AsyncStorage.getItem('@token');
+        const myToken = jsonValue != null ? JSON.parse(jsonValue) : null;
+
+        if(myToken){
+            const response = await API.get(`/products?token=${myToken}`);
+            const products = response.data.data;
+
+            if(products){
+                return products;
+            }
+        }
+        
+    } catch (error) {
+        // for debug
+    }
+
+    alert('Erro ao carregar produtos.');
+}
 
 
 export default API;

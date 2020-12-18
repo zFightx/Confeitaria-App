@@ -26,7 +26,7 @@ export default ( {navigation} ) =>{
                 const isValid = await checkToken(token);
 
                 if(isValid){
-                    alert("Token válido");
+                    navigation.reset({routes:[{name:'HomeTabs'}]});
                 }
 
                 else{

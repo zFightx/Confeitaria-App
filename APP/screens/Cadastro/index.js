@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { KeyboardAvoidingView, StatusBar } from 'react-native';
 
-import API, {Cadastro} from '../../API';
+import {Cadastro} from '../../API';
 
 import {
     Container,
@@ -32,8 +32,15 @@ export default ({navigation}) =>{
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const cadastrar = () => {
-        Cadastro(username, email, password);
+    const cadastrar = async () => {
+        const success = await Cadastro(username, email, password);
+
+        if(success){
+            navigation.reset({routes: [{name: "HomeTabs"}]});
+        }
+        else{
+            alert("Verifique se seus dados foram colocado corretamente.");
+        }
     }
 
     return(

@@ -35,8 +35,15 @@ export default ({ navigation }) =>{
     // }, [] );
 
     const handleLogin = async () => {
-        await Login(username, password);
+        const success = await Login(username, password);
         
+        if(success){
+            navigation.reset({routes: [{name: 'HomeTabs'}]});
+        }
+        else{
+            alert(`Username ou Password errado. `);
+        }
+            
     }
 
     return(
