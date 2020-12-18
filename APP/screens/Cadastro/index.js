@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { KeyboardAvoidingView, StatusBar } from 'react-native';
+
+import API, {Cadastro} from '../../API';
 
 import {
     Container,
@@ -25,7 +27,15 @@ import UserIcon from '../../assets/user.svg';
 import EmailIcon from '../../assets/email.svg';
 import PasswordIcon from '../../assets/password.svg';
 
-export default () =>{
+export default ({navigation}) =>{
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const cadastrar = () => {
+        Cadastro(username, email, password);
+    }
+
     return(
         <Container>
             <StatusBar style="auto" />
@@ -39,13 +49,18 @@ export default () =>{
                     <FormBox>
                         <BoxUsername>
                             <UserIcon width="24px" height="24px" fill="#DDA946" />
-                            <UsernameInput placeholder="Username" placeholderTextColor="#CCC"/>
+                            <UsernameInput placeholder="Username" placeholderTextColor="#CCC"
+                                value={username}
+                                onChangeText={t => setUsername(t)}
+                            />
                         </BoxUsername>
 
                         <BoxPassword>
                             <EmailIcon width="24px" height="24px" fill="#DDA946"/>
                             <PasswordInput placeholder="E-mail" placeholderTextColor="#CCC"
                             textContentType="emailAddress"
+                            value={email}
+                            onChangeText={t => setEmail(t)}
                             />
                         </BoxPassword>
 
@@ -53,11 +68,15 @@ export default () =>{
                             <PasswordIcon width="24px" height="24px" fill="#DDA946"/>
                             <PasswordInput placeholder="Password" placeholderTextColor="#CCC"
                             secureTextEntry={true}
+                            value={password}
+                            onChangeText={t => setPassword(t)}
                             />
                         </BoxPassword>
                     </FormBox>
                 
-                    <BoxButton>
+                    <BoxButton
+                        onPress={cadastrar}
+                    >
                         <ButtonText>Cadastrar</ButtonText>
                     </BoxButton>
 

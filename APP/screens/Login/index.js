@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { KeyboardAvoidingView, StatusBar, AsyncStorage } from 'react-native';
 
-import API from '../../API';
+import API, {Login} from '../../API';
 
 import {
     Container,
@@ -26,7 +26,7 @@ import Logo from '../../assets/logo.png';
 import UserIcon from '../../assets/user.svg';
 import PasswordIcon from '../../assets/password.svg';
 
-export default () =>{
+export default ({ navigation }) =>{
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -35,30 +35,8 @@ export default () =>{
     // }, [] );
 
     const handleLogin = async () => {
-        // alert("AQUI");
-        try {
-            const response = await API.get(`/usuarios/${username}/${password}`);
-            const status = response.data.status;
-
-            if(status == "success"){
-                saveUsername(response.data.data.username);
-            }
-            else{
-                alert(`${response.data.menssage}`);
-            }
-        } catch (error) {
-            alert("Erro " + error);
-        }
-    }
-
-
-    const saveUsername = async (username) => {
-        try {
-            await AsyncStorage.setItem('@username', JSON.stringify(username));
-            alert("Salvou");
-        } catch (error) {
-            
-        }
+        await Login(username, password);
+        
     }
 
     return(
@@ -105,11 +83,13 @@ export default () =>{
                     </EsqueceuBox>
                 </KeyboardAvoidingView>
                 
-                {<CadastreBox>
+                {<CadastreBox
+                    onPress={ () => {navigation.navigate('Cadastro') } }
+                >
                     <CadastreText
                         numberOfLines={2}
                         lineBreakMode="middle"
-                    >Ainda não possui um conta? Cadastra-se</CadastreText>
+                    >Ainda não possui uma conta? Cadastra-se</CadastreText>
                 </CadastreBox>}
             </FundoBackground>
         </Container>
