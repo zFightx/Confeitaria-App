@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { KeyboardAvoidingView, StatusBar, AsyncStorage } from 'react-native';
+import { ActivityIndicator, RefreshControl } from 'react-native';
 
 import {getFavorites} from '../../API';
 
@@ -10,16 +10,24 @@ import {
     TitleBox,
     TitleText,
     ProductsBox,
-    ProductsList
+    ProductsList,
+    LoadingBox
     
 } from './styles';
 
 export default ({ navigation }) =>{
     const [products, setProducts] = useState([]);
+    const [refreshing, setRefreshing] = useState(false);
+    const [isLoading, setLoading] = useState(false);
 
     React.useEffect( () => {
+        onRefresh();
+    }, [onRefresh]);
+
+    const onRefresh = () => {
+        setLoading(true);
         loadFavorites();
-    }, [loadFavorites]);
+    }
 
     const loadFavorites = async () => {
         const result = await getFavorites();
@@ -34,6 +42,8 @@ export default ({ navigation }) =>{
                 setProducts(updateResult);
             }
         }
+
+        setLoading(false);
     }
 
     const renderProducts = ({item}) =>{
@@ -48,14 +58,23 @@ export default ({ navigation }) =>{
                 <TitleText>Favoritos</TitleText>
             </TitleBox>
 
+            { isLoading ?
+            <LoadingBox>
+                <ActivityIndicator size="large" color="#0000ff"/>
+            </LoadingBox>
+            :
             <ProductsBox>
                 <ProductsList
                     data={products}
                     renderItem={renderProducts}
-                    keyExtractor={item => ''+item.id}                
+                    keyExtractor={item => ''+item.id}   
+                    refreshControl={
+                        <RefreshControl enabled={true} refreshing={refreshing} onRefresh={onRefresh} />
+                    }     
+                        
                 />            
             </ProductsBox>
-            
+            }
         </Container>
     )
 }

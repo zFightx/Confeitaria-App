@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { KeyboardAvoidingView, StatusBar, AsyncStorage } from 'react-native';
+import { KeyboardAvoidingView, StatusBar, AsyncStorage, ActivityIndicator, RefreshControl } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import {getCategories, getProducts} from '../../API';
@@ -34,7 +34,8 @@ import {
     TopProductsText,
     TopProductsList,
 
-    Scroller
+    Scroller,
+    LoadingBox
 } from './styles';
 
 export default ({ navigation }) =>{
@@ -43,13 +44,21 @@ export default ({ navigation }) =>{
     ]);
 
     const [products, setProducts] = useState([
-        {id: '1', name: 'Bolo de aniversário', description: 'Lapsum akari migrate asta retum bloqueio margatira', price: 50.00, url_img: require('../../assets/bolo1.png')},
+        // {id: '1', name: 'Bolo de aniversário', description: 'Lapsum akari migrate asta retum bloqueio margatira', price: 50.00, url_img: require('../../assets/bolo1.png')},
     ]);
 
+    const [isLoading, setLoading] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
+
     React.useEffect( () => {
+        onRefresh();
+    }, [onRefresh] );
+
+    const onRefresh = () =>{
+        setLoading(true);
         loadCategories();
         loadProducts();
-    }, [loadCategories, loadProducts] );
+    }
 
     const loadCategories = async () => {
         const result = await getCategories();
@@ -79,6 +88,8 @@ export default ({ navigation }) =>{
                 setProducts(updateResult);
             }
         }
+
+        setLoading(false);
     }
 
     const renderCategories = ({item}) =>{        
@@ -132,8 +143,17 @@ export default ({ navigation }) =>{
                 <SearchInput placeholder="Pesquisar delícias" />
             </SearchBox>
             
+            {isLoading ?            
+            <LoadingBox>
+                <ActivityIndicator size="large" color="#0000ff"/>
+            </LoadingBox>
+            :
             <Scroller
-                horizontal={false}>
+                horizontal={false}
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                }
+            >
                 <CategoryBox>
                     <CategoryText>Categorias</CategoryText>
                     <CategoryList
@@ -158,6 +178,7 @@ export default ({ navigation }) =>{
                     />
                 </TopProductsBox>
             </Scroller>
+            }
         </Container>
     )
 }

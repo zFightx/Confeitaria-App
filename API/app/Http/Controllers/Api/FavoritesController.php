@@ -31,6 +31,23 @@ class FavoritesController extends Controller
         return response()->json($return);
     }
 
+    public function count_favorite($product_id)
+    {
+        try{
+            $data = Favorites::join('users', 'favorites.user_id', '=', 'users.id')
+                ->join('products', 'favorites.product_id', '=', 'products.id')
+                ->join('categories', 'products.category_id', '=', 'categories.id')
+                ->where('products.id', '=', $product_id)
+                ->count();
+            
+            $return = ['code' => 20, 'data' => $data, 'message' => ApiMessages::indexSuccess()];
+        }catch(\Exception $error){
+            $return = ['code' => 40, 'data' => [], 'message' => ApiMessages::indexFail() . $error->getMessage()];
+        }
+
+        return response()->json($return);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -141,11 +158,12 @@ class FavoritesController extends Controller
      * @param  \App\Models\Favorites  $favorites
      * @return \Illuminate\Http\Response
      */
-    public function destroy_user(Favorites $id)
+    public function destroy_user($user_id, Favorites $id)
     {
         try{
-            $id->delete();
-
+            if($id->user_id == $user_id){
+                $id->delete();
+            }
             $return = ['code' => 20, 'message' => ApiMessages::destroySuccess()];
         }catch(\Exception $error){
             $return = ['code' => 40, 'data' => [], 'message' => ApiMessages::destroyFail()];

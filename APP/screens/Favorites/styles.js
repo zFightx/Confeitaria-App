@@ -6,7 +6,8 @@ export const Container = styled.View`
 
 
 export const ProductsList = styled.FlatList`
-
+    flex: 1;
+    width: 100%;
 `;
 
 export const TitleBox = styled.View`
@@ -21,5 +22,12 @@ export const TitleText = styled.Text`
     
 `;
 export const ProductsBox = styled.View`
+    align-items: center;
+    flex: 1;
+`;
+
+export const LoadingBox = styled.View`
+    flex: 1;
+    justify-content: center;
     align-items: center;
 `;

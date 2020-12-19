@@ -1,26 +1,32 @@
 import React, {useState} from 'react';
-import { KeyboardAvoidingView, StatusBar, AsyncStorage } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 
 import {getProductsCategory} from '../../API';
 
 import ProductItem from '../../components/ProductItem';
 
+import ArrowIcon from '../../assets/arrowLeft.svg';
+
 import {
     Container,
     TitleBox,
     TitleText,
+    TitleBottomBack,
     ProductsBox,
-    ProductsList
+    ProductsList,
+    LoadingBox
     
 } from './styles';
 
 export default ({ route, navigation }) =>{
     const [products, setProducts] = useState([]);
     const [category, setCategory] = useState({});
+    const [isLoading, setLoading] = useState(true);
 
     React.useEffect( () => {
 
         if (route.params?.category) {
+            setLoading(true);
             const {category: categoryParam} = route.params;
             setCategory(categoryParam);
             loadProductCategory(categoryParam.id);
@@ -42,6 +48,7 @@ export default ({ route, navigation }) =>{
                 setProducts(updateResult);
             }
         }
+        setLoading(false);
     }
 
     const renderProducts = ({item}) =>{
@@ -53,9 +60,19 @@ export default ({ route, navigation }) =>{
     return(
         <Container>
             <TitleBox>
+                <TitleBottomBack
+                    onPress={() => navigation.goBack()}
+                >
+                    <ArrowIcon width="24px" height="24px" fill="#FFF" />
+                </TitleBottomBack>
                 <TitleText>{category.name}</TitleText>
             </TitleBox>
 
+            {isLoading ?            
+            <LoadingBox>
+                <ActivityIndicator size="large" color="#0000ff"/>
+            </LoadingBox>
+            :
             <ProductsBox>
                 <ProductsList
                     data={products}
@@ -63,6 +80,7 @@ export default ({ route, navigation }) =>{
                     keyExtractor={item => ''+item.id}                
                 />            
             </ProductsBox>
+            }
             
         </Container>
     )

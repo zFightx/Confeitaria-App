@@ -133,6 +133,83 @@ export const getFavorites = async () => {
     alert('Erro na leitura de favoritos.');
 }
 
+export const getCountFavorite = async (idProduct) => {
+    try {
+        const jsonValue = await AsyncStorage.getItem('@token');
+        const myToken = jsonValue != null ? JSON.parse(jsonValue) : null;
+
+        if(myToken){
+            const response = await API.get(`/favorites/count/${idProduct}?token=${myToken}`);
+            const data = response.data.data;
+            
+            if (response){
+                return data;   
+            }
+            else{
+                return 0;
+            }
+            
+        }
+    } catch (error) {
+        // para de bug
+        // alert('Erro na leitura de favoritos. ' + error);
+    }
+
+    alert('Erro na leitura de contagem.');
+    return 0;
+}
+
+export const insertFavorite = async (idProduct) => {
+    try {
+        const jsonValue = await AsyncStorage.getItem('@token');
+        const myToken = jsonValue != null ? JSON.parse(jsonValue) : null;
+
+        if(myToken){
+            const response1 = await API.post(`/auth/me?token=${myToken}`);
+            const data = response1.data;
+            
+            if(data){
+                const myId = data.id;
+                await API.post(`/favorites/user?token=${myToken}`,{
+                    user_id: myId,
+                    product_id: idProduct
+                });
+
+                return;
+            }            
+        }
+    } catch (error) {
+        // para de bug
+        // alert('Erro na leitura de favoritos. ' + error);
+    }
+
+    alert('Erro na gravação de favoritos.');
+}
+
+export const deleteFavorite = async (idFavorite) => {
+    try {
+        const jsonValue = await AsyncStorage.getItem('@token');
+        const myToken = jsonValue != null ? JSON.parse(jsonValue) : null;
+
+        if(myToken){
+            const response1 = await API.post(`/auth/me?token=${myToken}`);
+            const data = response1.data;
+            
+            if(data){
+                const myId = data.id;
+                await API.delete(`/favorites/user/${myId}/${idFavorite}?token=${myToken}`);
+
+                return;
+            }            
+        }
+    } catch (error) {
+        // para de bug
+        // alert('Erro na leitura de favoritos. ' + error);
+    }
+
+    alert('Erro na exclusão de favoritos.');
+}
+
 export const getProductsCategory = async (idCategory) => {
     try {
         const jsonValue = await AsyncStorage.getItem('@token');
@@ -154,6 +231,7 @@ export const getProductsCategory = async (idCategory) => {
 
     alert('Erro na leitura de categoria product.');
 }
+
 
 
 export default API;

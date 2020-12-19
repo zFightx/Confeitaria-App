@@ -78,9 +78,11 @@ Route::namespace('App\Http\Controllers\Api')->group(function(){
         ],function(){
             Route::get('/user/{user_id}', 'FavoritesController@index_user')->name('index_user_favorites');
             Route::get('/user/{user_id}/{id}', 'FavoritesController@show_user')->name('show_user_favorites');
-            Route::post('/user/{user_id}', 'FavoritesController@store_user')->name('store_user_favorites');
+            Route::post('/user', 'FavoritesController@store_user')->name('store_user_favorites');
             Route::put('/user/{user_id}/{id}', 'FavoritesController@update_user')->name('update_user_favorites');
             Route::delete('/user/{user_id}/{id}', 'FavoritesController@destroy_user')->name('destroy_user_favorites');
+
+            Route::get('/count/{product_id}', 'FavoritesController@count_favorite')->name('count_favorites');
         });
         
     });

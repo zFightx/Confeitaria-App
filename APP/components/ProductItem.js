@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {useNavigation} from '@react-navigation/native';
 import styled from 'styled-components/native';
 
 // TopProductsItemBox,
@@ -9,8 +9,8 @@ import styled from 'styled-components/native';
 // TopProductsItemPrice,
 // TopProductsItemImage,
 
-export const TopProductsItemBox = styled.View`
-    width: 330px;
+export const TopProductsItemBox = styled.TouchableOpacity`
+    width: 300px;
     height: 150px;
 
     /* border: 1px solid gray; */
@@ -19,7 +19,10 @@ export const TopProductsItemBox = styled.View`
     border-top-right-radius: 10px;
     border-bottom-right-radius: 30px;
 
-    margin-right: 20px;
+    /* border-color: #3F2100; */
+    /* border: 1px solid gray; */
+
+    margin-right: 30px;
 
     flex-direction: row;
 
@@ -28,7 +31,8 @@ export const TopProductsItemBox = styled.View`
 
     elevation: 2;
 
-    overflow: hidden;
+    /* overflow: hidden; */
+    align-self:center;
 `;
 
 export const TopProductsItemTextBox = styled.View`
@@ -61,17 +65,25 @@ export const TopProductsItemPrice = styled.Text`
 `;
 
 export const TopProductsItemImage = styled.Image`
-    align-self: flex-end;
+    align-self: center;
     width: 90px;
     height: 90px;
 
-    border-radius: 10px;
+    border-width: 3px;
+    border-color: #aaa;
+    border-radius: 20px;
+    margin-right: -20px;
 `;
 
 
 export default ({item}) => {
+    const navigation = useNavigation();
     return(
-        <TopProductsItemBox>
+        <TopProductsItemBox
+            onPress={
+                () => navigation.navigate('Produto', {product: item})
+            }
+        >
             <TopProductsItemTextBox>
                 <TopProductsItemTitle numberOfLines={1}>{item.name}</TopProductsItemTitle>
                 <TopProductsItemDescription numberOfLines={3}>{item.description}</TopProductsItemDescription>

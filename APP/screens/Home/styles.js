@@ -149,3 +149,9 @@ export const TopProductsList = styled.FlatList`
 export const Scroller = styled.ScrollView`
     margin-top: 20px;
 `;
+
+export const LoadingBox = styled.View`
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+`;
