@@ -82,6 +82,7 @@ Route::namespace('App\Http\Controllers\Api')->group(function(){
             Route::put('/user/{user_id}/{id}', 'FavoritesController@update_user')->name('update_user_favorites');
             Route::delete('/user/{user_id}/{id}', 'FavoritesController@destroy_user')->name('destroy_user_favorites');
 
+            Route::get('/topproducts', 'FavoritesController@top_products_favorite')->name('top_products_favorites');
             Route::get('/count/{product_id}', 'FavoritesController@count_favorite')->name('count_favorites');
         });
         

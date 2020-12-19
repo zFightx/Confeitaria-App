@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Favorites;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class FavoritesController extends Controller
 {
@@ -22,6 +23,30 @@ class FavoritesController extends Controller
                 ->select('favorites.id as id_fav', 'products.*', 'categories.name AS category')
                 ->where('users.id', '=', $user_id)
                 ->get();
+            
+            $return = ['code' => 20, 'data' => $data, 'message' => ApiMessages::indexSuccess()];
+        }catch(\Exception $error){
+            $return = ['code' => 40, 'data' => [], 'message' => ApiMessages::indexFail() . $error->getMessage()];
+        }
+
+        return response()->json($return);
+    }
+
+    public function top_products_favorite()
+    {
+        try{
+            
+            $data = DB::table('favorites')
+                ->join('products', 'favorites.product_id', '=', 'products.id')
+                ->join('categories', 'products.category_id', '=', 'categories.id')
+                ->select(DB::raw('favorites.id AS id_fav, products.*, categories.name AS category, COUNT(*) AS quantidade'))
+                ->orderByDesc('quantidade')
+                ->groupBy('products.id')
+                ->limit(10)
+                ->get();
+            
+            // DB::raw('SELECT favorites.id AS id_fav, products.*, categories.name AS category, count(*) AS quantidade FROM favorites INNER JOIN products ON products.id = favorites.product_id INNER JOIN categories ON categories.id = products.category_id GROUP BY products.id ORDER BY quantidade DESC');
+                // SELECT favorites.id AS id_fav, products.*, categories.name AS category, count(*) AS quantidade FROM favorites INNER JOIN products ON products.id = favorites.product_id INNER JOIN categories ON categories.id = products.category_id GROUP BY products.id ORDER BY quantidade DESC;
             
             $return = ['code' => 20, 'data' => $data, 'message' => ApiMessages::indexSuccess()];
         }catch(\Exception $error){

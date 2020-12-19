@@ -106,6 +106,27 @@ export const getProducts = async () => {
     alert('Erro ao carregar produtos.');
 }
 
+export const getTopProducts = async () => {
+    try {
+        const jsonValue = await AsyncStorage.getItem('@token');
+        const myToken = jsonValue != null ? JSON.parse(jsonValue) : null;
+
+        if(myToken){
+            const response = await API.get(`/favorites/topproducts?token=${myToken}`);
+            const products = response.data.data;
+            
+            if(products){
+                return products;
+            }
+        }
+        
+    } catch (error) {
+        // for debug
+    }
+
+    alert('Erro ao carregar produtos.');
+}
+
 export const getFavorites = async () => {
     try {
         const jsonValue = await AsyncStorage.getItem('@token');

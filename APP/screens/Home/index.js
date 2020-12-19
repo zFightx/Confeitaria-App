@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { KeyboardAvoidingView, StatusBar, AsyncStorage, ActivityIndicator, RefreshControl } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
-import {getCategories, getProducts} from '../../API';
+import {getCategories, getTopProducts} from '../../API';
 
 import ProductItem from '../../components/ProductItem';
 
@@ -76,9 +76,9 @@ export default ({ navigation }) =>{
     }
 
     const loadProducts = async () => {
-        const result = await getProducts();
+        const result = await getTopProducts();
         
-        if(result){
+        if(result[0]){
             const updateResult = result.map(function(item){
                 item.url_img = 'http://192.168.1.141:80/imagens/'+item.url_img;
                 return item;
