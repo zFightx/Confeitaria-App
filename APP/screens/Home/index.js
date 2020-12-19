@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { KeyboardAvoidingView, StatusBar, AsyncStorage, ActivityIndicator, RefreshControl } from 'react-native';
+import { ActivityIndicator, RefreshControl } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import {getCategories, getTopProducts} from '../../API';
@@ -113,6 +113,7 @@ export default ({ navigation }) =>{
         );
     }
 
+    
     return(
         <Container>
             <TitleBox>
@@ -129,7 +130,9 @@ export default ({ navigation }) =>{
                     colors={['#7E6A54', '#513518','#482B0C', '#442707']}
                     
                 >
-                    <TitleText>Deliciante Sabores</TitleText>
+                    <TitleText
+                        style={{fontFamily: 'DancingScriptBold'}}
+                    >Deliciante Sabores</TitleText>
 
                     <SubtitleBox>
                         <SubtitleText1>escolha uma </SubtitleText1>

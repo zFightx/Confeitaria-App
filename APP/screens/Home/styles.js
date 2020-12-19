@@ -25,7 +25,7 @@ export const TitleText = styled.Text`
     color: white;
 
     font-size: 25px;
-    /* font-family: 'Optima'; */
+    /* font-weight:bold; */
 
     margin-left: 40px;
     margin-top: 30px;
